@@ -1,7 +1,7 @@
 Name: String
 Title: Definition of strings in Coq
-Author: Laurent The'ry
-Institution: INRIA
+Author: Laurent Théry
+Institution: INRIA Sophia-Antipolis
 Date: Mars 2002
 Description: Strings as list of characters.
 Keywords: string, ascii character
