@@ -1,0 +1,16 @@
+g_ascii_syntax.cmo: g_ascii_syntax.ml
+g_ascii_syntax.cmx: g_ascii_syntax.ml
+g_string_syntax.cmo: g_string_syntax.ml
+g_string_syntax.cmx: g_string_syntax.ml
+Ascii_syntax.vo: Ascii_syntax.v ./Ascii.vo g_ascii_syntax.cmo
+Ascii_syntax.vi: Ascii_syntax.v ./Ascii.vo g_ascii_syntax.cmo
+Ascii.vo: Ascii.v
+Ascii.vi: Ascii.v
+String_syntax.vo: String_syntax.v ./Ascii.vo ./String.vo ./Ascii_syntax.vo g_string_syntax.cmo
+String_syntax.vi: String_syntax.v ./Ascii.vo ./String.vo ./Ascii_syntax.vo g_string_syntax.cmo
+String.vo: String.v ./Ascii.vo
+String.vi: String.v ./Ascii.vo
+Ascii_syntax.html: Ascii_syntax.v ./Ascii.html g_ascii_syntax.cmo
+Ascii.html: Ascii.v
+String_syntax.html: String_syntax.v ./Ascii.html ./String.html ./Ascii_syntax.html g_string_syntax.cmo
+String.html: String.v ./Ascii.html

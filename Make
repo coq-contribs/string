@@ -1,0 +1,7 @@
+Ascii.v
+-custom "$(COQC) -q -byte Ascii_syntax.v" "" Ascii_syntax.vo
+String.v 
+-custom "$(COQC) -q -byte String_syntax.v" "" String_syntax.vo
+g_ascii_syntax.ml
+g_string_syntax.ml
+
