@@ -4,9 +4,7 @@ Require Import ZArith.
 
 (* Definition of ascii character as a 8 bits constructor *)
  
-Inductive ascii : Set :=
-    Ascii :
-      bool -> bool -> bool -> bool -> bool -> bool -> bool -> bool -> ascii.
+Inductive ascii : Set := Ascii (_ _ _ _ _ _ _ _ : bool) : ascii.
  
 Definition zero := Ascii false false false false false false false false.
  
@@ -45,7 +43,8 @@ Defined.
 
 Eval compute in (ascii_dec zero one).
 
- 
+Notation id := (fun x => x).
+
 (* Auxillary function that turns a positive into an ascii by
    looking at the last n bits, ie z mod 2^n *)
 
@@ -56,11 +55,8 @@ Fixpoint pos2ascii_aux (res acc : ascii) (z : positive)
   | S n1 =>
       match z with
       | xH => app2 orb res acc
-      | xI z' =>
-          pos2ascii_aux (app2 orb res acc)
-            (shift (fun x : bool => x) false acc) z' n1
-      | xO z' =>
-          pos2ascii_aux res (shift (fun x : bool => x) false acc) z' n1
+      | xI z' => pos2ascii_aux (app2 orb res acc) (shift id false acc) z' n1
+      | xO z' => pos2ascii_aux res (shift id false acc) z' n1
       end
   end.
 
@@ -87,41 +83,19 @@ Definition ascii2nat (a : ascii) :=
         (2 *
          (2 *
           (2 *
-           (2 * match a8 with
-                | true => 1
-                | false => 0
-                end + match a7 with
-                      | true => 1
-                      | false => 0
-                      end) + match a6 with
-                             | true => 1
-                             | false => 0
-                             end) +
-          match a5 with
-          | true => 1
-          | false => 0
-          end) + match a4 with
-                 | true => 1
-                 | false => 0
-                 end) + match a3 with
-                        | true => 1
-                        | false => 0
-                        end) + match a2 with
-                               | true => 1
-                               | false => 0
-                               end) +
-      match a1 with
-      | true => 1
-      | false => 0
-      end
+           (2 * (if a8 then 1 else 0)
+            + (if a7 then 1 else 0))
+           + (if a6 then 1 else 0))
+          + (if a5 then 1 else 0))
+         + (if a4 then 1 else 0))
+        + (if a3 then 1 else 0))
+       + (if a2 then 1 else 0))
+      + (if a1 then 1 else 0)
   end.
 
-(* Take too much time!  
+(* Take (too) much time! *)
 (* Just to be sure we have not written non-sense: 256 cases! *)
-Theorem ascii2nat2ascii:
-  (a : ascii)  (nat2ascii (ascii2nat a)) = a.
-Intros a; Case a.
-Intros a1 a2 a3 a4 a5 a6 a7 a8; Case a1; Case a2; Case a3; Case a4; Case a5;
- Case a6; Case a7; Case a8; Simpl; Auto.
-Qed.
-*)
+Theorem ascii2nat2ascii: forall a : ascii, nat2ascii (ascii2nat a) = a.
+Proof.
+  destruct a as [[|][|][|][|][|][|][|][|]]; compute; reflexivity.
+Abort.
