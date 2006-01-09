@@ -37,14 +37,6 @@ let interp_string dloc s =
        [interp_ascii dloc (int_of_char s.[n]); aux (n+1)])
      in aux 0
 
-let interp_string_pat dloc s name =
-  let le = String.length s in
-  let rec aux n = 
-     if n = le then PatCstr (dloc,path_of_EmptyString,[],name) else
-     PatCstr (dloc,path_of_String,
-       [interp_ascii_pat dloc (int_of_char s.[n]) Anonymous; aux (n+1)],name)
-     in aux 0
-
 let uninterp_string r =
   try 
     let b = Buffer.create 16 in
@@ -64,9 +56,6 @@ let uninterp_string r =
 let _ =
   Notation.declare_string_interpreter "string_scope"
     (glob_string,["String"])
-    (interp_string,Some interp_string_pat)
-    ([RRef (dummy_loc,glob_String);RRef (dummy_loc,glob_EmptyString)],
-     uninterp_string, None)
-
-
-(* uninterp_string_pat *)
+    interp_string
+    ([RRef (dummy_loc,glob_String); RRef (dummy_loc,glob_EmptyString)],
+     uninterp_string, true)

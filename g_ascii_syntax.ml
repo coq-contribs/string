@@ -33,14 +33,6 @@ let interp_ascii dloc p =
      :: (aux (n-1) (p/2)) in
   RApp (dloc,RRef(dloc,glob_Ascii), aux 8 p)
 
-let interp_ascii_pat dloc p name =
-  let rec aux n p = 
-     if n = 0 then [] else
-     let mp = p mod 2 in
-     PatCstr (dloc,(if mp=0 then path_of_false else path_of_true),[],Anonymous)
-     :: (aux (n-1) (p/2)) in
-  PatCstr (dloc,path_of_Ascii,aux 8 p,name)
-
 let uninterp_ascii r =
   let rec uninterp_bool_list n = function
     | [] when n = 0 -> 0
