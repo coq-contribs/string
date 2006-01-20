@@ -14,6 +14,7 @@ open Rawterm
 open Topconstr
 open Libnames
 open Coqlib
+open Bigint
 
 exception Non_closed_ascii
 
@@ -22,6 +23,8 @@ let make_path dir id = Libnames.encode_kn dir id
 
 let ascii_module = make_dir ["Ascii"]
 let ascii_path = make_path ascii_module (id_of_string "ascii")
+
+let glob_ascii  = IndRef (ascii_path,0)
 let path_of_Ascii = ((ascii_path,0),1)
 let glob_Ascii  = ConstructRef path_of_Ascii
 
@@ -33,6 +36,17 @@ let interp_ascii dloc p =
      :: (aux (n-1) (p/2)) in
   RApp (dloc,RRef(dloc,glob_Ascii), aux 8 p)
 
+let interp_ascii_string dloc s =
+  let p = 
+    if String.length s = 1 then int_of_char s.[0]
+    else
+      if String.length s = 3 & is_digit s.[0] & is_digit s.[1] & is_digit s.[2]
+      then int_of_string s
+      else
+	user_err_loc (dloc,"interp_ascii_string",
+	  str "Expects a single character or a three-digits ascii code") in
+  interp_ascii dloc p
+
 let uninterp_ascii r =
   let rec uninterp_bool_list n = function
     | [] when n = 0 -> 0
@@ -42,41 +56,19 @@ let uninterp_ascii r =
   try 
     let rec aux = function
     | RApp (_,RRef (_,k),l) when k = glob_Ascii -> uninterp_bool_list 8 l
-    | _ -> raise Non_closed_ascii
-    in Some (aux r)
+    | _ -> raise Non_closed_ascii in
+    Some (aux r)
   with 
    Non_closed_ascii -> None
 
-(** Ad hoc parser *)
+let make_ascii_string n =
+  if n>=32 && n<=126 then String.make 1 (char_of_int n)
+  else Printf.sprintf "%03d" n
 
-let make_dir l = make_dirpath (List.map id_of_string (List.rev l))
-let make_qualid dir s = make_qualid (make_dir dir) (id_of_string s)
-let ctrue  loc = Qualid (loc,make_qualid ["Coq";"Init";"Datatypes"] "true")
-let cfalse loc = Qualid (loc,make_qualid ["Coq";"Init";"Datatypes"] "false")
-let cascii loc = Qualid (loc,make_qualid ["Ascii"] "Ascii")
+let uninterp_ascii_string r = option_app make_ascii_string (uninterp_ascii r)
 
-let make_ascii dloc p =
-  let rec aux n p =
-     if n = 0 then [] else
-     let mp = p mod 2 in
-     if mp = 0 then
-     CRef (cfalse dloc):: (aux (n-1) (p/2)) else
-     CRef (ctrue dloc) :: (aux (n-1) (p/2)) in
-  CAppExpl (dloc,(None,cascii dloc), aux 8 p)
-
-let fmake_ascii s dloc =
-  let le = (String.length s) in
-  if (le =3) then
-    (make_ascii dloc (int_of_string s)) else
-  if ((le =2 ) && ((s.[0])='\\')) then
-    (make_ascii dloc (int_of_char s.[1]))
-  else
-    (make_ascii dloc (int_of_char s.[0]))
-
-(* Cannot use location: no compatibility between ocaml 3.08 and 3.09 *)
- 
-GEXTEND Gram
-  GLOBAL: Constr.operconstr;
-  Constr.operconstr: LEVEL "0" 
-    [ [ "@@"; s = STRING -> fmake_ascii s dummy_loc ] ];
-END
+let _ =
+  Notation.declare_string_interpreter "char_scope"
+    (glob_ascii,["Ascii"])
+    interp_ascii_string
+    ([RRef (dummy_loc,glob_Ascii)], uninterp_ascii_string, true)
