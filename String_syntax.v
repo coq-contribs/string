@@ -5,6 +5,8 @@ Require Export Ascii_syntax.
 
 Declare ML Module "g_string_syntax".
 
+Open Scope string_scope.
+
 (* Examples *)
 
 Eval compute in "Hello".

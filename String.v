@@ -14,8 +14,11 @@ Hint Resolve SomeComp.
 Inductive string : Set :=
   | EmptyString : string
   | String : ascii -> string -> string.
-(* Equility is decidable *)
- 
+(* Equality is decidable *)
+
+Delimit Scope string_scope with string.
+Bind Scope string_scope with string.
+
 Definition string_dec : forall s1 s2 : string, {s1 = s2} + {s1 <> s2}.
  decide equality; apply ascii_dec.
 Defined.

@@ -5,6 +5,9 @@ Require Import ZArith.
 (* Definition of ascii character as a 8 bits constructor *)
  
 Inductive ascii : Set := Ascii (_ _ _ _ _ _ _ _ : bool) : ascii.
+
+Delimit Scope char_scope with char.
+Bind Scope char_scope with ascii.
  
 Definition zero := Ascii false false false false false false false false.
  
