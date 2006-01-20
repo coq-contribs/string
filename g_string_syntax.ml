@@ -21,7 +21,6 @@ exception Non_closed_string
 
 let string_module = make_dir ["String"]
 let string_path = make_path string_module (id_of_string "string")
-let glob_String  = ConstructRef ((string_path,0),1)
 
 let glob_string  = IndRef (string_path,0)
 let path_of_EmptyString  = ((string_path,0),1)
@@ -35,7 +34,7 @@ let interp_string dloc s =
      if n = le then RRef (dloc, glob_EmptyString) else
      RApp (dloc,RRef (dloc, glob_String),
        [interp_ascii dloc (int_of_char s.[n]); aux (n+1)])
-     in aux 0
+  in aux 0
 
 let uninterp_string r =
   try 
