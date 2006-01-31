@@ -53,7 +53,7 @@ let uninterp_string r =
    Non_closed_string -> None
 
 let _ =
-  Notation.declare_string_interpreter "string_scope"
+  Notation.declare_string_interpreter "my_string_scope"
     (glob_string,["String"])
     interp_string
     ([RRef (dummy_loc,glob_String); RRef (dummy_loc,glob_EmptyString)],

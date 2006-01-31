@@ -1,7 +1,7 @@
 Require Import Arith.
 Require Export Ascii.
 
-Declare ML Module "g_ascii_syntax".
+Declare ML Module "./g_ascii_syntax".
 
 (* 
   Ascii characters are parsed and pretty-print as follows:
@@ -14,7 +14,7 @@ Declare ML Module "g_ascii_syntax".
 
 (* Parsing *)
 
-Open Scope char_scope.
+Open Scope my_char_scope.
 
 (* Examples *)
 

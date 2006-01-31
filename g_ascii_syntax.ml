@@ -68,7 +68,7 @@ let make_ascii_string n =
 let uninterp_ascii_string r = option_app make_ascii_string (uninterp_ascii r)
 
 let _ =
-  Notation.declare_string_interpreter "char_scope"
+  Notation.declare_string_interpreter "my_char_scope"
     (glob_ascii,["Ascii"])
     interp_ascii_string
     ([RRef (dummy_loc,glob_Ascii)], uninterp_ascii_string, true)

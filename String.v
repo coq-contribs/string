@@ -16,8 +16,8 @@ Inductive string : Set :=
   | String : ascii -> string -> string.
 (* Equality is decidable *)
 
-Delimit Scope string_scope with string.
-Bind Scope string_scope with string.
+Delimit Scope my_string_scope with string.
+Bind Scope my_string_scope with string.
 
 Definition string_dec : forall s1 s2 : string, {s1 = s2} + {s1 <> s2}.
  decide equality; apply ascii_dec.
