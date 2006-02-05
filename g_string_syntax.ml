@@ -19,13 +19,15 @@ exception Non_closed_string
 
 (* make a string term from the string s *)
 
-let string_module = make_dir ["String"]
-let string_path = make_path string_module (id_of_string "string")
+let string_module = ["String"]
 
-let glob_string  = IndRef (string_path,0)
-let path_of_EmptyString  = ((string_path,0),1)
+let string_path = make_path string_module "string"
+
+let string_kn = make_kn string_module "string"
+let glob_string  = IndRef (string_kn,0)
+let path_of_EmptyString  = ((string_kn,0),1)
 let glob_EmptyString  = ConstructRef path_of_EmptyString
-let path_of_String  = ((string_path,0),2)
+let path_of_String  = ((string_kn,0),2)
 let glob_String  = ConstructRef path_of_String
 
 let interp_string dloc s =
@@ -54,7 +56,7 @@ let uninterp_string r =
 
 let _ =
   Notation.declare_string_interpreter "my_string_scope"
-    (glob_string,["String"])
+    (string_path,["String"])
     interp_string
     ([RRef (dummy_loc,glob_String); RRef (dummy_loc,glob_EmptyString)],
      uninterp_string, true)

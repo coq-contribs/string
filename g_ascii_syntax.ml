@@ -19,13 +19,15 @@ open Bigint
 exception Non_closed_ascii
 
 let make_dir l = make_dirpath (List.map id_of_string (List.rev l))
-let make_path dir id = Libnames.encode_kn dir id
+let make_kn dir id = Libnames.encode_kn (make_dir dir) (id_of_string id)
+let make_path dir id = Libnames.make_path (make_dir dir) (id_of_string id)
 
-let ascii_module = make_dir ["Ascii"]
-let ascii_path = make_path ascii_module (id_of_string "ascii")
+let ascii_module = ["Ascii"]
 
-let glob_ascii  = IndRef (ascii_path,0)
-let path_of_Ascii = ((ascii_path,0),1)
+let ascii_path = make_path ascii_module "ascii"
+
+let ascii_kn = make_kn ascii_module "ascii"
+let path_of_Ascii = ((ascii_kn,0),1)
 let glob_Ascii  = ConstructRef path_of_Ascii
 
 let interp_ascii dloc p =
@@ -69,6 +71,6 @@ let uninterp_ascii_string r = option_app make_ascii_string (uninterp_ascii r)
 
 let _ =
   Notation.declare_string_interpreter "my_char_scope"
-    (glob_ascii,["Ascii"])
+    (ascii_path,["Ascii"])
     interp_ascii_string
     ([RRef (dummy_loc,glob_Ascii)], uninterp_ascii_string, true)
