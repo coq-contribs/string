@@ -3,9 +3,9 @@ Require Export Ascii.
 Require Export String.
 Require Export Ascii_syntax.
 
-Declare ML Module "./g_string_syntax".
+Declare ML Module "./g_local_string_syntax".
 
-Open Scope my_string_scope.
+Open Scope local_string_scope.
 
 (* Examples *)
 

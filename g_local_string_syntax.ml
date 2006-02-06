@@ -12,7 +12,7 @@ open Names
 open Pcoq
 open Libnames
 open Topconstr
-open G_ascii_syntax
+open G_local_ascii_syntax
 open Rawterm
 
 exception Non_closed_string
@@ -55,7 +55,7 @@ let uninterp_string r =
    Non_closed_string -> None
 
 let _ =
-  Notation.declare_string_interpreter "my_string_scope"
+  Notation.declare_string_interpreter "local_string_scope"
     (string_path,["String"])
     interp_string
     ([RRef (dummy_loc,glob_String); RRef (dummy_loc,glob_EmptyString)],
