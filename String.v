@@ -16,8 +16,8 @@ Inductive string : Set :=
   | String : ascii -> string -> string.
 (* Equality is decidable *)
 
-Delimit Scope my_string_scope with string.
-Bind Scope my_string_scope with string.
+Delimit Scope local_string_scope with string.
+Bind Scope local_string_scope with string.
 
 Definition string_dec : forall s1 s2 : string, {s1 = s2} + {s1 <> s2}.
  decide equality; apply ascii_dec.
@@ -259,7 +259,7 @@ case (index 0 s1 s2'); intros; discriminate.
 intros m'; generalize (Rec 0 m' s1); case (index 0 s1 s2'); auto.
 intros x H H0 H1 p; try case p; simpl in |- *; auto.
 intros H2 H3; red in |- *; intros H4; case H0.
-intros H5 H6; absurd (false = true); auto.
+intros H5 H6; absurd (false = true); auto with bool.
 intros n0 H2 H3; apply H; auto.
 injection H1; intros H4; injection H4; auto.
 apply Le.le_O_n.
@@ -297,7 +297,7 @@ intros; discriminate.
 case m; simpl in |- *; auto.
 case s1; simpl in |- *; auto.
 intros a s H H0 H1 H2; red in |- *; intros H3; case H.
-intros H4 H5; absurd (false = true); auto.
+intros H4 H5; absurd (false = true); auto with bool.
 case s1; simpl in |- *; auto.
 intros a s n0 H H0 H1 H2;
  change (substring n0 (length (String a s)) s2' <> String a s) in |- *;

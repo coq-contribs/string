@@ -6,8 +6,8 @@ Require Import ZArith.
  
 Inductive ascii : Set := Ascii (_ _ _ _ _ _ _ _ : bool) : ascii.
 
-Delimit Scope my_char_scope with char.
-Bind Scope my_char_scope with ascii.
+Delimit Scope local_char_scope with char.
+Bind Scope local_char_scope with ascii.
  
 Definition zero := Ascii false false false false false false false false.
  
