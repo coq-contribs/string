@@ -17,18 +17,7 @@ Inductive string : Set :=
 (* Equility is decidable *)
  
 Definition string_dec : forall s1 s2 : string, {s1 = s2} + {s1 <> s2}.
-fix 1.
-intros s1 s2; case s1.
-case s2.
-left; auto.
-right; intros; red in |- *; intros; discriminate.
-intros a s1'; case s2.
-right; intros; red in |- *; intros; discriminate.
-intros b s2'; case (ascii_dec a b); intros H1.
-case (string_dec s1' s2'); intros H2.
-left; rewrite H1; rewrite H2; auto.
-right; red in |- *; intros H3; case H2; injection H3; auto.
-right; red in |- *; intros H2; case H1; injection H2; auto.
+ decide equality; apply ascii_dec.
 Defined.
 (* Usual append function for string *)
  

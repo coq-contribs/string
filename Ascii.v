@@ -1,4 +1,5 @@
 Require Import Bool.
+Require Import BoolEq.
 Require Import ZArith.
 
 (* Definition of ascii character as a 8 bits constructor *)
@@ -32,26 +33,12 @@ Definition shift (f : bool -> bool) (c : bool) (a : ascii) :=
 
 (* Definition of a decidable function that is effective *)
  
+Lemma bool_dec : forall a b : bool, {a = b} + { a <> b}.
+ decide equality.
+Defined.
+
 Definition ascii_dec : forall a b : ascii, {a = b} + {a <> b}.
-intros a b; case a; case b.
-intros a1 a2 a3 a4 a5 a6 a7 a8 b1 b2 b3 b4 b5 b6 b7 b8.
-case a1; case b1;
- (right; red in |- *; intros; discriminate) ||
-   (case a2; case b2;
-     (right; red in |- *; intros; discriminate) ||
-       (case a3; case b3;
-         (right; red in |- *; intros; discriminate) ||
-           (case a4; case b4;
-             (right; red in |- *; intros; discriminate) ||
-               (case a5; case b5;
-                 (right; red in |- *; intros; discriminate) ||
-                   (case a6; case b6;
-                     (right; red in |- *; intros; discriminate) ||
-                       (case a7; case b7;
-                         (right; red in |- *; intros; discriminate) ||
-                           (case a8; case b8;
-                             (right; red in |- *; intros; discriminate) ||
-                               (case a8; case b8; auto)))))))).
+ decide equality; apply bool_dec.
 Defined.
 
 (* Example *)
