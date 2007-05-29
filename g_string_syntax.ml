@@ -32,7 +32,7 @@ let make_string s dloc =
 
 GEXTEND Gram
   GLOBAL: Constr.operconstr;
-  Constr.operconstr: LEVEL "0" [ [ s = STRING -> make_string s loc ] ];
+  Constr.operconstr: LEVEL "0" [ [ s = STRING -> make_string s dummy_loc ] ];
 END
 
 (** old ast-based pp **)

@@ -68,7 +68,7 @@ let fmake_ascii s dloc =
 
 GEXTEND Gram
   GLOBAL: Constr.operconstr;
-  Constr.operconstr: LEVEL "0" [ [ "@"; s = STRING -> fmake_ascii s loc ] ];
+  Constr.operconstr: LEVEL "0" [ [ "@"; s = STRING -> fmake_ascii s dummy_loc ] ];
 END
 
 (** old ast-based pp **)
