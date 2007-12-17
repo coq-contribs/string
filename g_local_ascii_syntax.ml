@@ -67,7 +67,7 @@ let make_ascii_string n =
   if n>=32 && n<=126 then String.make 1 (char_of_int n)
   else Printf.sprintf "%03d" n
 
-let uninterp_ascii_string r = option_map make_ascii_string (uninterp_ascii r)
+let uninterp_ascii_string r = Option.map make_ascii_string (uninterp_ascii r)
 
 let _ =
   Notation.declare_string_interpreter "local_char_scope"
