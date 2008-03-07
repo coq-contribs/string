@@ -22,7 +22,7 @@ let make_dir l = make_dirpath (List.map id_of_string (List.rev l))
 let make_kn dir id = Libnames.encode_kn (make_dir dir) (id_of_string id)
 let make_path dir id = Libnames.make_path (make_dir dir) (id_of_string id)
 
-let ascii_module = ["Ascii"]
+let ascii_module = ["String"; "Ascii"]
 
 let ascii_path = make_path ascii_module "ascii"
 

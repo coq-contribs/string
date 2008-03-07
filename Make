@@ -1,7 +1,8 @@
+-R . String
 Ascii.v
 g_local_ascii_syntax.ml
--custom "$(COQC) -q -byte Ascii_syntax.v" "" Ascii_syntax.vo
+-custom "$(COQC) $(COQLIBS) -q -byte Ascii_syntax.v" "" Ascii_syntax.vo
 String.v 
 g_local_string_syntax.ml
--custom "$(COQC) -q -byte String_syntax.v" "" String_syntax.vo
+-custom "$(COQC) $(COQLIBS) -q -byte String_syntax.v" "" String_syntax.vo
 

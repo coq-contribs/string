@@ -1,7 +1,0 @@
-g_local_ascii_syntax.cmo: g_local_ascii_syntax.ml
-g_local_ascii_syntax.cmx: g_local_ascii_syntax.ml
-g_local_string_syntax.cmo: g_local_string_syntax.ml g_local_ascii_syntax.cmo
-g_local_string_syntax.cmx: g_local_string_syntax.ml g_local_ascii_syntax.cmx
-Ascii.vo: Ascii.v
-Ascii.vi: Ascii.v
-Ascii.html: Ascii.v

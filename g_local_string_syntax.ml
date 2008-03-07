@@ -19,7 +19,7 @@ exception Non_closed_string
 
 (* make a string term from the string s *)
 
-let string_module = ["String"]
+let string_module = ["String"; "String"]
 
 let string_path = make_path string_module "string"
 
