@@ -5,3 +5,4 @@ Institution: INRIA Sophia-Antipolis
 Date: Mars 2002
 Description: Strings as list of characters.
 Keywords: string, ascii character
+Category: Miscellaneous/Coq Extensions
