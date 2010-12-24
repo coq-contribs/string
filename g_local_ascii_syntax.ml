@@ -10,7 +10,7 @@ open Pp
 open Util
 open Names
 open Pcoq
-open Rawterm
+open Glob_term
 open Topconstr
 open Libnames
 open Coqlib
@@ -34,9 +34,9 @@ let interp_ascii dloc p =
   let rec aux n p = 
      if n = 0 then [] else
      let mp = p mod 2 in
-     RRef (dloc,if mp = 0 then glob_false else glob_true)
+     GRef (dloc,if mp = 0 then glob_false else glob_true)
      :: (aux (n-1) (p/2)) in
-  RApp (dloc,RRef(dloc,glob_Ascii), aux 8 p)
+  GApp (dloc,GRef(dloc,glob_Ascii), aux 8 p)
 
 let interp_ascii_string dloc s =
   let p = 
@@ -52,12 +52,12 @@ let interp_ascii_string dloc s =
 let uninterp_ascii r =
   let rec uninterp_bool_list n = function
     | [] when n = 0 -> 0
-    | RRef (_,k)::l when k = glob_true  -> 1+2*(uninterp_bool_list (n-1)  l)
-    | RRef (_,k)::l when k = glob_false -> 2*(uninterp_bool_list (n-1) l)
+    | GRef (_,k)::l when k = glob_true  -> 1+2*(uninterp_bool_list (n-1)  l)
+    | GRef (_,k)::l when k = glob_false -> 2*(uninterp_bool_list (n-1) l)
     | _ -> raise Non_closed_ascii in
   try 
     let rec aux = function
-    | RApp (_,RRef (_,k),l) when k = glob_Ascii -> uninterp_bool_list 8 l
+    | GApp (_,GRef (_,k),l) when k = glob_Ascii -> uninterp_bool_list 8 l
     | _ -> raise Non_closed_ascii in
     Some (aux r)
   with 
@@ -73,4 +73,4 @@ let _ =
   Notation.declare_string_interpreter "local_char_scope"
     (ascii_path,["Ascii"])
     interp_ascii_string
-    ([RRef (dummy_loc,glob_Ascii)], uninterp_ascii_string, true)
+    ([GRef (dummy_loc,glob_Ascii)], uninterp_ascii_string, true)
