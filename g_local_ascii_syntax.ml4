@@ -14,13 +14,14 @@ open Pcoq
 open Glob_term
 open Topconstr
 open Libnames
+open Globnames
 open Coqlib
 open Bigint
 
 exception Non_closed_ascii
 
 let make_dir l = make_dirpath (List.map id_of_string (List.rev l))
-let make_kn dir id = Libnames.encode_mind (make_dir dir) (id_of_string id)
+let make_kn dir id = Globnames.encode_mind (make_dir dir) (id_of_string id)
 let make_path dir id = Libnames.make_path (make_dir dir) (id_of_string id)
 
 let ascii_module = ["String"; "Ascii"]
@@ -32,7 +33,7 @@ let path_of_Ascii = ((ascii_kn,0),1)
 let glob_Ascii  = ConstructRef path_of_Ascii
 
 let interp_ascii dloc p =
-  let rec aux n p = 
+  let rec aux n p =
      if n = 0 then [] else
      let mp = p mod 2 in
      GRef (dloc,if mp = 0 then glob_false else glob_true)
@@ -40,7 +41,7 @@ let interp_ascii dloc p =
   GApp (dloc,GRef(dloc,glob_Ascii), aux 8 p)
 
 let interp_ascii_string dloc s =
-  let p = 
+  let p =
     if String.length s = 1 then int_of_char s.[0]
     else
       if String.length s = 3 & is_digit s.[0] & is_digit s.[1] & is_digit s.[2]
@@ -56,12 +57,12 @@ let uninterp_ascii r =
     | GRef (_,k)::l when k = glob_true  -> 1+2*(uninterp_bool_list (n-1)  l)
     | GRef (_,k)::l when k = glob_false -> 2*(uninterp_bool_list (n-1) l)
     | _ -> raise Non_closed_ascii in
-  try 
+  try
     let rec aux = function
     | GApp (_,GRef (_,k),l) when k = glob_Ascii -> uninterp_bool_list 8 l
     | _ -> raise Non_closed_ascii in
     Some (aux r)
-  with 
+  with
    Non_closed_ascii -> None
 
 let make_ascii_string n =

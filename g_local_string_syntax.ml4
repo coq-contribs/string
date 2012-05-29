@@ -11,6 +11,7 @@ open Util
 open Names
 open Pcoq
 open Libnames
+open Globnames
 open Topconstr
 open G_local_ascii_syntax
 open Glob_term
@@ -32,14 +33,14 @@ let glob_String  = ConstructRef path_of_String
 
 let interp_string dloc s =
   let le = String.length s in
-  let rec aux n = 
+  let rec aux n =
      if n = le then GRef (dloc, glob_EmptyString) else
      GApp (dloc,GRef (dloc, glob_String),
        [interp_ascii dloc (int_of_char s.[n]); aux (n+1)])
   in aux 0
 
 let uninterp_string r =
-  try 
+  try
     let b = Buffer.create 16 in
     let rec aux = function
     | GApp (_,GRef (_,k),[a;s]) when k = glob_String ->
@@ -51,7 +52,7 @@ let uninterp_string r =
     | _ ->
 	raise Non_closed_string
     in aux r
-  with 
+  with
    Non_closed_string -> None
 
 let _ =
