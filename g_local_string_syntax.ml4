@@ -59,5 +59,5 @@ let _ =
   Notation.declare_string_interpreter "local_string_scope"
     (string_path,["String"])
     interp_string
-    ([GRef (dummy_loc,glob_String); GRef (dummy_loc,glob_EmptyString)],
+    ([GRef (Loc.ghost,glob_String); GRef (Loc.ghost,glob_EmptyString)],
      uninterp_string, true)

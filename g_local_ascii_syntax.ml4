@@ -75,4 +75,4 @@ let _ =
   Notation.declare_string_interpreter "local_char_scope"
     (ascii_path,["Ascii"])
     interp_ascii_string
-    ([GRef (dummy_loc,glob_Ascii)], uninterp_ascii_string, true)
+    ([GRef (Loc.ghost,glob_Ascii)], uninterp_ascii_string, true)
