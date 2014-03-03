@@ -54,12 +54,12 @@ let interp_ascii_string dloc s =
 let uninterp_ascii r =
   let rec uninterp_bool_list n = function
     | [] when n = 0 -> 0
-    | GRef (_,k)::l when k = glob_true  -> 1+2*(uninterp_bool_list (n-1)  l)
-    | GRef (_,k)::l when k = glob_false -> 2*(uninterp_bool_list (n-1) l)
+    | GRef (_,k)::l when eq_gr k glob_true  -> 1+2*(uninterp_bool_list (n-1)  l)
+    | GRef (_,k)::l when eq_gr k glob_false -> 2*(uninterp_bool_list (n-1) l)
     | _ -> raise Non_closed_ascii in
   try
     let rec aux = function
-    | GApp (_,GRef (_,k),l) when k = glob_Ascii -> uninterp_bool_list 8 l
+    | GApp (_,GRef (_,k),l) when eq_gr k glob_Ascii -> uninterp_bool_list 8 l
     | _ -> raise Non_closed_ascii in
     Some (aux r)
   with
