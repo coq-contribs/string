@@ -1,3 +1,4 @@
+-I .
 -R . String
 Ascii.v
 g_local_ascii_syntax.ml4
