@@ -1,8 +1,13 @@
 -I .
 -R . String
-Ascii.v
+
 g_local_ascii_syntax.ml4
+g_local_string_syntax.ml4
+
+-extra g_local_string_syntax.cmo g_local_ascii_syntax.cmo ""
+-extra g_local_string_syntax.cmx g_local_ascii_syntax.cmo ""
+
+Ascii.v
 Ascii_syntax.v
 String.v 
-g_local_string_syntax.ml4
 String_syntax.v
